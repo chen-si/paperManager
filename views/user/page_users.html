@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户管理</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<script src="/static/js/jquery-1.7.2.js"></script>
+<script>
+	$(function(){
+		//给删除图书的超链接绑定单击事件
+		$(".deleteBook").click(function(){
+			//获取书名
+			var title = $(this).attr("id");
+			// var flag = confirm("确定要删除【"+title+"】这本图书吗？");
+			// if(!flag){
+			// 	//取消默认行为
+			// 	return false;
+			// }
+			return confirm("确定要删除【"+title+"】这本图书吗？");
+		});
+	});
+</script>
+</head>
+<body>
+	
+	<div id="header">
+			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+			<span class="wel_word">学位论文管理系统</span>
+			<div>
+				<a href="/getPageUsers">用户管理</a>
+				<a href="/">返回主页</a>
+			</div>
+	</div>
+	
+	<div id="main">
+		<table>
+			<tr>
+				<td>用户ID</td>
+				<td>用户名</td>
+				<td>用户密码</td>
+				<td>用户角色</td>
+				<td colspan="2">操作</td>
+			</tr>	
+			{{range .Page.Users}}
+			<tr>
+				<td>{{.UserId}}</td>
+				<td>{{.UserName}}</td>
+				<td>{{.UserPwd}}</td>
+				<td>{{.UserRole}}</td>
+				<td><a href="/updateOrAddUser?userid={{.UserId}}">修改</a></td>
+				<td><a id="{{.UserName}}" class="deleteBook" href="/deleteUser?userid={{.UserId}}">删除</a></td>
+			</tr>
+			{{end}}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><a href="/updateOrAddUser">添加用户</a></td>
+			</tr>	
+		</table>
+		<div id="page_nav">
+			{{if .Page.IsHasPrev}}
+				<a href="/getPageUsers">首页</a>
+				<a href="/getPageUsers?pageNo={{.Page.GetPrevPageNo}}">上一页</a>
+			{{end}}
+			当前是第{{.Page.PageNo}}页，共{{.Page.TotalPageNo}}页，共{{.Page.TotalRecord}}条记录
+			{{if .Page.IsHasNext}}
+				<a href="/getPageUsers?pageNo={{.Page.GetNextPageNo}}">下一页</a>
+				<a href="/getPageUsers?pageNo={{.Page.TotalPageNo}}">末页</a>
+			{{end}}
+			到第<input value="{{.Page.PageNo}}" name="pn" id="pn_input"/>页
+			<input type="button" value="确定" id="sub">
+			<script>
+				//给确定按钮绑定单击事件
+				$("#sub").click(function(){
+					//获取输入的页码
+					var pageNo = $("#pn_input").val();
+					location = "/getPageUsers?pageNo="+pageNo
+				});
+			</script>
+		</div>
+	</div>
+	
+	<div id="bottom">
+		<span>
+			Liu.Copyright &copy;2020
+		</span>
+	</div>
+</body>
+</html>

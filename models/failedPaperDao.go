@@ -3,16 +3,15 @@ package models
 import "github.com/astaxie/beego/orm"
 
 type FailedPaperDao struct {
-	db orm.Ormer
+	Db orm.Ormer
 }
 
-
-func (fpDao *FailedPaperDao) Update(fp *FailedPaper)(err error){
-	_,err = fpDao.db.Update(fp)
+func (fpDao *FailedPaperDao) Update(fp *FailedPaper) (err error) {
+	_, err = fpDao.Db.Update(fp)
 	return
 }
 
-func (fpDao *FailedPaperDao) Read(fp *FailedPaper)(err error){
-	err = fpDao.db.Read(fp)
+func (fpDao *FailedPaperDao) Read(fp *FailedPaper) (err error) {
+	err = fpDao.Db.Read(fp)
 	return
 }

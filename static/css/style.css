@@ -196,12 +196,12 @@ h1 {
 
 #l_content {
 	float: left;
-	margin-top: 150px;
+	margin-top: 75px;
 	margin-left: 300px;
 }
 
 #l_content span {
-	font-size: 60px;
+	font-size: 45px;
 	color: white;
 }
 
@@ -259,7 +259,7 @@ h1 {
 
 .cart_span a , td a{
 	font-size: 20px;
-	color: blue;
+	color: #0000ff;
 }
 
 #header div span {

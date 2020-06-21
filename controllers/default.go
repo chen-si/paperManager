@@ -17,12 +17,11 @@ func (c *MainController) Get() {
 	pDao := &models.PaperDao{
 		Db: models.Db,
 	}
-	page,err := pDao.GetPagePapers("1")
-	if err != nil{
+	page, err := pDao.GetPagePapers("1")
+	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	c.TplName = "book_manager.html"
 	c.Data["Page"] = page
 }
-

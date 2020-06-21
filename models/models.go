@@ -16,7 +16,8 @@ const (
 const (
 	PaperPageStyle     = "PaperPage"
 	GraduatesPageStyle = "GraduatesPage"
-	TutorPagesStyle    = "TutorPages"
+	TutorPagesStyle    = "TutorPage"
+	UserPageStyle      = "UserPage"
 )
 
 type UserInfo struct {
@@ -57,6 +58,7 @@ type Page struct {
 	Papers      []*PaperInfo
 	Graduates   []*GraduatesInfo
 	Tutors      []*TutorsInfo
+	Users       []*UserInfo
 	PageStyle   string
 	PageNo      int64 //当前页码
 	PageSize    int64 //每页显示的条数

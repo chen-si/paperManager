@@ -7,38 +7,39 @@ import (
 
 func TestModel(t *testing.T) {
 	//FailedPaper
-	t.Run("FPUpdate",testFPUpdate)
-	t.Run("FPRead",testFPRead)
+	t.Run("FPUpdate", testFPUpdate)
+	t.Run("FPRead", testFPRead)
 
 	//Paper
-	t.Run("PaperInsert",testPaperInsert)
-	t.Run("PaperUpdate",testPaperUpdate)
-	t.Run("PaperDelete",testPaperDelete)
-	t.Run("PaperRead",testPaperRead)
-	t.Run("PaperGetPagePapers",testPaperGetPagePapers)
+	t.Run("PaperInsert", testPaperInsert)
+	t.Run("PaperUpdate", testPaperUpdate)
+	t.Run("PaperDelete", testPaperDelete)
+	t.Run("PaperRead", testPaperRead)
+	t.Run("PaperGetPagePapers", testPaperGetPagePapers)
 
 	//Graduate
-	t.Run("GraduateInsert",testGraduateInsert)
-	t.Run("GraduateUpdate",testGraduateUpdate)
-	t.Run("GraduateDelete",testGraduateDelete)
-	t.Run("GraduateRead",testGraduateRead)
+	t.Run("GraduateInsert", testGraduateInsert)
+	t.Run("GraduateUpdate", testGraduateUpdate)
+	t.Run("GraduateDelete", testGraduateDelete)
+	t.Run("GraduateRead", testGraduateRead)
 
 	//Tutor
-	t.Run("TutorInsert",testTutorInsert)
-	t.Run("TutorUpdate",testTutorUpdate)
-	t.Run("TutorDelete",testTutorDelete)
-	t.Run("TutorRead",testTutorRead)
+	t.Run("TutorInsert", testTutorInsert)
+	t.Run("TutorUpdate", testTutorUpdate)
+	t.Run("TutorDelete", testTutorDelete)
+	t.Run("TutorRead", testTutorRead)
 
 	//User
 	t.Run("UserInsert", testUserDaoInsert)
 	t.Run("UserDelete", testUserDaoDelete)
 	t.Run("UserUpdate", testUserDaoUpdate)
 	t.Run("UserRead", testUserDaoRead)
+	t.Run("GetPageUsers",testGetPageUsers)
 }
 
-func testFPUpdate(t *testing.T){
+func testFPUpdate(t *testing.T) {
 	fpDao := &FailedPaperDao{
-		db: db,
+		Db: Db,
 	}
 	fp := &FailedPaper{
 		PaperId:         "555666",
@@ -47,20 +48,20 @@ func testFPUpdate(t *testing.T){
 	fmt.Println(fpDao.Update(fp))
 }
 
-func testFPRead(t *testing.T){
+func testFPRead(t *testing.T) {
 	fpDao := &FailedPaperDao{
-		db: db,
+		Db: Db,
 	}
 	fp := &FailedPaper{
-		PaperId:         "555666",
+		PaperId: "555666",
 	}
 	fmt.Println(fpDao.Read(fp))
 	fmt.Println(fp)
 }
 
-func testPaperInsert(t *testing.T){
+func testPaperInsert(t *testing.T) {
 	p := &PaperDao{
-		Db: db,
+		Db: Db,
 	}
 
 	pInfo := &PaperInfo{
@@ -74,9 +75,9 @@ func testPaperInsert(t *testing.T){
 	fmt.Println(p.Insert(pInfo))
 }
 
-func testPaperUpdate(t *testing.T){
+func testPaperUpdate(t *testing.T) {
 	p := &PaperDao{
-		Db: db,
+		Db: Db,
 	}
 
 	pInfo := &PaperInfo{
@@ -90,41 +91,40 @@ func testPaperUpdate(t *testing.T){
 	fmt.Println(p.Update(pInfo))
 }
 
-func testPaperRead(t *testing.T){
+func testPaperRead(t *testing.T) {
 	p := &PaperDao{
-		Db: db,
+		Db: Db,
 	}
 
 	pInfo := &PaperInfo{
-		PaperId:      "555666",
+		PaperId: "555666",
 	}
 	fmt.Println(p.Read(pInfo))
 	fmt.Println(pInfo)
 }
 
-func testPaperDelete(t *testing.T){
+func testPaperDelete(t *testing.T) {
 	p := &PaperDao{
-		Db: db,
+		Db: Db,
 	}
 	fmt.Println(p.Delete("456789"))
 }
 
-func testPaperGetPagePapers(t *testing.T){
+func testPaperGetPagePapers(t *testing.T) {
 	p := &PaperDao{
-		Db: db,
+		Db: Db,
 	}
 
-	page,err := p.GetPagePapers("1")
+	page, err := p.GetPagePapers("1")
 	fmt.Println(err)
 	fmt.Println(page)
 	fmt.Println(page.Papers[0])
 	fmt.Println(page.Papers[1])
 }
 
-
-func testGraduateInsert(t *testing.T){
+func testGraduateInsert(t *testing.T) {
 	g := &GraduatesDao{
-		db: db,
+		Db: Db,
 	}
 	gInfo := &GraduatesInfo{
 		Id:           "123456",
@@ -135,9 +135,9 @@ func testGraduateInsert(t *testing.T){
 	fmt.Println(g.Insert(gInfo))
 }
 
-func testGraduateUpdate(t *testing.T){
+func testGraduateUpdate(t *testing.T) {
 	g := &GraduatesDao{
-		db: db,
+		Db: Db,
 	}
 	gInfo := &GraduatesInfo{
 		Id:           "123456",
@@ -148,34 +148,34 @@ func testGraduateUpdate(t *testing.T){
 	fmt.Println(g.Update(gInfo))
 }
 
-func testGraduateRead(t *testing.T){
+func testGraduateRead(t *testing.T) {
 	g := &GraduatesDao{
-		db: db,
+		Db: Db,
 	}
 	gInfo := &GraduatesInfo{
-		Id:           "123456",
+		Id: "123456",
 	}
 	fmt.Println(g.Read(gInfo))
 	fmt.Println(gInfo)
 }
 
-func testGraduateDelete(t *testing.T){
+func testGraduateDelete(t *testing.T) {
 	g := &GraduatesDao{
-		db: db,
+		Db: Db,
 	}
 	fmt.Println(g.Delete("123456"))
 }
 
-func testTutorDelete(t *testing.T){
+func testTutorDelete(t *testing.T) {
 	tu := &TutorDao{
-		db: db,
+		Db: Db,
 	}
 	fmt.Println(tu.Delete("111555"))
 }
 
-func testTutorUpdate(t *testing.T){
+func testTutorUpdate(t *testing.T) {
 	tu := &TutorDao{
-		db: db,
+		Db: Db,
 	}
 	tutor := &TutorsInfo{
 		TutorId:   "111555",
@@ -185,9 +185,9 @@ func testTutorUpdate(t *testing.T){
 	fmt.Println(tu.Update(tutor))
 }
 
-func testTutorRead(t *testing.T){
+func testTutorRead(t *testing.T) {
 	tu := &TutorDao{
-		db: db,
+		Db: Db,
 	}
 	tutor := &TutorsInfo{
 		TutorId:   "111555",
@@ -198,9 +198,9 @@ func testTutorRead(t *testing.T){
 	fmt.Println(tutor)
 }
 
-func testTutorInsert(t *testing.T){
+func testTutorInsert(t *testing.T) {
 	tu := &TutorDao{
-		db: db,
+		Db: Db,
 	}
 	tutor := &TutorsInfo{
 		TutorId:   "111555",
@@ -212,7 +212,7 @@ func testTutorInsert(t *testing.T){
 
 func testUserDaoDelete(t *testing.T) {
 	u := &UserDao{
-		db: db,
+		Db: Db,
 	}
 	err := u.Delete("123456")
 	fmt.Println(err)
@@ -220,7 +220,7 @@ func testUserDaoDelete(t *testing.T) {
 
 func testUserDaoInsert(t *testing.T) {
 	u := &UserDao{
-		db: db,
+		Db: Db,
 	}
 	user := UserInfo{
 		UserId:   "123456",
@@ -234,7 +234,7 @@ func testUserDaoInsert(t *testing.T) {
 
 func testUserDaoUpdate(t *testing.T) {
 	u := &UserDao{
-		db: db,
+		Db: Db,
 	}
 	user := UserInfo{
 		UserId:   "123456",
@@ -248,7 +248,7 @@ func testUserDaoUpdate(t *testing.T) {
 
 func testUserDaoRead(t *testing.T) {
 	u := &UserDao{
-		db: db,
+		Db: Db,
 	}
 	user := UserInfo{
 		UserId: "123456",
@@ -256,4 +256,15 @@ func testUserDaoRead(t *testing.T) {
 	err := u.Read(&user)
 	fmt.Println(err)
 	fmt.Println(user)
+}
+
+func testGetPageUsers(t *testing.T){
+	u := &UserDao{
+		Db: Db,
+	}
+	page,err := u.GetPageUsers("1")
+	fmt.Println(err)
+	fmt.Println(page)
+	fmt.Println(page.Users)
+	fmt.Println(page.Users[0])
 }
