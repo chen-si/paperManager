@@ -34,7 +34,7 @@ func TestModel(t *testing.T) {
 	t.Run("UserDelete", testUserDaoDelete)
 	t.Run("UserUpdate", testUserDaoUpdate)
 	t.Run("UserRead", testUserDaoRead)
-	t.Run("GetPageUsers",testGetPageUsers)
+	t.Run("GetPageUsers", testGetPageUsers)
 }
 
 func testFPUpdate(t *testing.T) {
@@ -258,11 +258,11 @@ func testUserDaoRead(t *testing.T) {
 	fmt.Println(user)
 }
 
-func testGetPageUsers(t *testing.T){
+func testGetPageUsers(t *testing.T) {
 	u := &UserDao{
 		Db: Db,
 	}
-	page,err := u.GetPageUsers("1")
+	page, err := u.GetPageUsers("1")
 	fmt.Println(err)
 	fmt.Println(page)
 	fmt.Println(page.Users)

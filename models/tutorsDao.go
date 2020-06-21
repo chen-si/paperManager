@@ -56,7 +56,7 @@ func (tDao *TutorDao) GetPageTutors(pageNo string) (page *Page, err error) {
 
 	var tutors []*TutorsInfo
 	_, err = tDao.Db.Raw("select tutor_id,tutor_name,college "+
-		"from paper_info limit ?,?", (iPageNo-1)*pageSize, pageSize).QueryRows(&tutors)
+		"from tutors_info limit ?,?", (iPageNo-1)*pageSize, pageSize).QueryRows(&tutors)
 
 	if err != nil {
 		return

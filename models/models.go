@@ -68,6 +68,13 @@ type Page struct {
 	Username    string
 }
 
+type SessionValue struct {
+	SessionId string
+	UserId    string
+	UserName  string
+	UserRole  string
+}
+
 //IsHasPrev
 func (p *Page) IsHasPrev() bool {
 	return p.PageNo > 1

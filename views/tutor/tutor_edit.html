@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>编辑导师信息</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<style type="text/css">
+	h1 {
+		text-align: center;
+		margin-top: 200px;
+	}
+	
+	h1 a {
+		color:red;
+	}
+	
+	input {
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+		<div id="header">
+			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+			<span class="wel_word">编辑导师信息</span>
+			<div>
+				<a href="/getPageBooks">图书管理</a>
+				<a href="/main">返回商城</a>
+			</div>
+		</div>
+		
+		<div id="main">
+			<form action="/updateOrAddTutor" method="POST">
+				
+				<table>
+					<tr>
+						<td>导师ID</td>
+						<td>导师名字</td>
+						<td>导师院系</td>
+						<td colspan="2">操作</td>
+					</tr>		
+					<tr>
+					{{if .Tutor}}
+						<td><input name="tutorid" type="text" value="{{.Tutor.TutorId}}"/></td>
+						<td><input name="tutorname" type="text" value="{{.Tutor.TutorName}}"/></td>
+						<td><input name="college" type="text" value="{{.Tutor.College}}"/></td>
+					{{else}}
+						<td><input name="tutorid" type="text"/></td>
+						<td><input name="tutorname" type="text"/></td>
+						<td><input name="college" type="text"/></td>
+					{{end}}
+						<td><input type="submit" value="提交"/></td>
+					</tr>		
+				</table>
+			</form>
+		</div>
+		
+		<div id="bottom">
+			<span>
+				尚硅谷书城.Copyright &copy;2015
+			</span>
+		</div>
+</body>
+</html>

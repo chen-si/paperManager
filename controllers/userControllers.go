@@ -4,17 +4,24 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"paperManger/models"
+	"paperManger/utils"
 )
 
-type LoginController struct {
+type UserController struct {
 	beego.Controller
 }
 
-func (c *LoginController) Get() {
-	c.TplName = "user/login.html"
+
+func (c *UserController) ToLogin() {
+	flag, _ := IsLogin(c)
+	if flag {
+		//已经登录了
+	} else {
+		c.TplName = "user/login.html"
+	}
 }
 
-func (c *LoginController) Post() {
+func (c *UserController) Login() {
 	userId := c.GetString("username")
 	userPwd := c.GetString("password")
 	uDao := &models.UserDao{
@@ -33,6 +40,15 @@ func (c *LoginController) Post() {
 		//登录验证成功
 		c.TplName = "user/login_success.html"
 		c.Data["name"] = user.UserName
+		uuid := utils.CreateUUID()
+		session := &models.SessionValue{
+			SessionId: uuid,
+			UserId:    user.UserId,
+			UserName:  user.UserName,
+			UserRole:  user.UserRole,
+		}
+		c.SetSession(uuid, session)
+		c.Ctx.SetCookie("user", uuid, 1000, "/")
 	} else {
 		//用户名或密码不正确！
 		c.TplName = "user/login.html"
@@ -40,11 +56,7 @@ func (c *LoginController) Post() {
 	}
 }
 
-type UserManagerController struct {
-	beego.Controller
-}
-
-func (c *UserManagerController) Get() {
+func (c *UserController) PageUsers() {
 	uDao := &models.UserDao{
 		Db: models.Db,
 	}
@@ -61,47 +73,39 @@ func (c *UserManagerController) Get() {
 		fmt.Println(err)
 		return
 	}
-	c.TplName = "user/page_users.html"
+	c.TplName = "user/page_tutors.html"
 	c.Data["Page"] = page
 }
 
-type DeleteUserController struct {
-	beego.Controller
-}
-
-func (c *DeleteUserController) Get() {
+func (c *UserController) DeleteUser() {
 	userId := c.GetString("userid")
 	uDao := &models.UserDao{
 		Db: models.Db,
 	}
 	err := uDao.Delete(userId)
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
 	}
-	c.Redirect("/getPageUsers",302)
+	c.Redirect("/getPageUsers", 302)
 }
 
-type UpdateOrAddUserController struct{
-	beego.Controller
-}
-
-func (c *UpdateOrAddUserController) Get(){
+func (c *UserController) ToUpdateOrAddUser() {
 	uDao := &models.UserDao{
 		Db: models.Db,
 	}
-	
+
 	userId := c.GetString("userid")
 	user := &models.UserInfo{
 		UserId: userId,
 	}
-	if userId == ""{
+	if userId == "" {
 		//add user
 		c.TplName = "user/user_edit.html"
-	}else{
+	} else {
 		//update user
 		err := uDao.Read(user)
 		fmt.Println(user)
-		if err != nil{
+		if err != nil {
 			fmt.Println(err)
 			return
 		}
@@ -110,32 +114,42 @@ func (c *UpdateOrAddUserController) Get(){
 	}
 }
 
-func (c *UpdateOrAddUserController) Post(){
+func (c *UserController) UpdateOrAddUser() {
 	user := &models.UserInfo{
 		UserId:   c.GetString("userid"),
-		UserPwd:  c.GetString("username"),
-		UserName: c.GetString("userpwd"),
+		UserPwd:  c.GetString("userpwd"),
+		UserName: c.GetString("username"),
 		UserRole: c.GetString("userrole"),
 	}
-	
+
 	uDao := &models.UserDao{
 		Db: models.Db,
 	}
-	
+
 	if err := uDao.Read(&models.UserInfo{
 		UserId: user.UserId,
-	}); err == nil{
+	}); err == nil {
 		//更新用户
 		err = uDao.Update(user)
-		if err != nil{
+		if err != nil {
 			fmt.Println(err)
 		}
-	}else{
+	} else {
 		//添加用户
 		err = uDao.Insert(user)
-		if err != nil{
+		if err != nil {
 			fmt.Println(err)
 		}
 	}
-	c.Redirect("/getPageUsers",302)
+	c.Redirect("/getPageUsers", 302)
+}
+
+func IsLogin(c *UserController) (bool, *models.SessionValue) {
+	uuid := c.Ctx.GetCookie("user")
+	sessionInterface := c.GetSession(uuid)
+	if sessionInterface == nil {
+		return false, nil
+	} else {
+		return true, sessionInterface.(*models.SessionValue)
+	}
 }

@@ -6,9 +6,16 @@ import (
 )
 
 func init() {
-	beego.Router("/", &controllers.LoginController{})
 	beego.Router("/getPagePapers", &controllers.MainController{})
-	beego.Router("/getPageUsers", &controllers.UserManagerController{})
-	beego.Router("/deleteUser", &controllers.DeleteUserController{})
-	beego.Router("/updateOrAddUser", &controllers.UpdateOrAddUserController{})
+
+	//User
+	beego.Router("/", &controllers.UserController{},"get:ToLogin;post:Login")
+	beego.Router("/getPageUsers", &controllers.UserController{},"*:PageUsers")
+	beego.Router("/deleteUser", &controllers.UserController{},"*:DeleteUser")
+	beego.Router("/updateOrAddUser", &controllers.UserController{},"get:ToUpdateOrAddUser;post:UpdateOrAddUser")
+
+	//Tutor
+	beego.Router("/getPageTutors", &controllers.TutorController{},"*:PageTutors")
+	beego.Router("/deleteTutor", &controllers.TutorController{},"*:DeleteTutor")
+	beego.Router("/updateOrAddTutor", &controllers.TutorController{},"get:ToUpdateOrAddTutor;post:UpdateOrAddTutor")
 }

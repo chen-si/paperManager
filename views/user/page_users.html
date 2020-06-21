@@ -7,16 +7,11 @@
 <script src="/static/js/jquery-1.7.2.js"></script>
 <script>
 	$(function(){
-		//给删除图书的超链接绑定单击事件
-		$(".deleteBook").click(function(){
-			//获取书名
+		//给删除用户的的超链接绑定单击事件
+		$(".deleteUser").click(function(){
+			//获取用户id
 			var title = $(this).attr("id");
-			// var flag = confirm("确定要删除【"+title+"】这本图书吗？");
-			// if(!flag){
-			// 	//取消默认行为
-			// 	return false;
-			// }
-			return confirm("确定要删除【"+title+"】这本图书吗？");
+			return confirm("确定要删除"+title+"用户吗？");
 		});
 	});
 </script>
@@ -48,7 +43,7 @@
 				<td>{{.UserPwd}}</td>
 				<td>{{.UserRole}}</td>
 				<td><a href="/updateOrAddUser?userid={{.UserId}}">修改</a></td>
-				<td><a id="{{.UserName}}" class="deleteBook" href="/deleteUser?userid={{.UserId}}">删除</a></td>
+				<td><a id="{{.UserName}}" class="deleteUser" href="/deleteUser?userid={{.UserId}}">删除</a></td>
 			</tr>
 			{{end}}
 			<tr>
