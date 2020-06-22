@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>毕业生信息管理</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<script src="/static/js/jquery-1.7.2.js"></script>
+<script>
+	$(function(){
+		//给删除导师的超链接绑定单击事件
+		$(".deleteTutor").click(function(){
+			//获取书名
+			var name = $(this).attr("id");
+			return confirm("确定要删除"+name+"这位导师吗？");
+		});
+	});
+</script>
+</head>
+<body>
+	
+	<div id="header">
+			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+			<span class="wel_word">学位论文管理系统</span>
+			<div>
+				<a href="/getPageUsers">用户管理</a>
+				<a href="/">返回主页</a>
+			</div>
+	</div>
+	
+	<div id="main">
+		<table>
+			<tr>
+				<td>毕业生学号</td>
+				<td>毕业生姓名</td>
+				<td>毕业生毕业时间</td>
+				<td>毕业生导师ID</td>
+				<td colspan="2">操作</td>
+			</tr>	
+			{{range .Page.Graduates}}
+			<tr>
+				<td>{{.Id}}</td>
+				<td>{{.Name}}</td>
+				<td>{{.GraduateTime}}</td>
+				<td>{{.TutorId}}</td>
+				<td><a href="/updateOrAddGraduate?id={{.Id}}">修改</a></td>
+				<td><a id="{{.Name}}" class="deleteGraduate" href="/deleteGraduate?id={{.Id}}">删除</a></td>
+			</tr>
+			{{end}}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><a href="/updateOrAddGraduate">添加毕业生信息</a></td>
+			</tr>	
+		</table>
+		<div id="page_nav">
+			{{if .Page.IsHasPrev}}
+				<a href="/getPageGraduates">首页</a>
+				<a href="/getPageGraduates?pageNo={{.Page.GetPrevPageNo}}">上一页</a>
+			{{end}}
+			当前是第{{.Page.PageNo}}页，共{{.Page.TotalPageNo}}页，共{{.Page.TotalRecord}}条记录
+			{{if .Page.IsHasNext}}
+				<a href="/getPageGraduates?pageNo={{.Page.GetNextPageNo}}">下一页</a>
+				<a href="/getPageGraduates?pageNo={{.Page.TotalPageNo}}">末页</a>
+			{{end}}
+			到第<input value="{{.Page.PageNo}}" name="pn" id="pn_input"/>页
+			<input type="button" value="确定" id="sub">
+			<script>
+				//给确定按钮绑定单击事件
+				$("#sub").click(function(){
+					//获取输入的页码
+					var pageNo = $("#pn_input").val();
+					location = "/getPageGraduates?pageNo="+pageNo
+				});
+			</script>
+		</div>
+	</div>
+	
+	<div id="bottom">
+		<span>
+			Liu.Copyright &copy;2020
+		</span>
+	</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>图书管理</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<script src="/static/js/jquery-1.7.2.js"></script>
+</head>
+<body>
+	
+	<div id="header">
+			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+			<span class="wel_word">学位论文管理系统</span>
+			<div>
+				欢迎{{.Name}}({{.Id}}:{{.Role}})进入系统
+			</div>
+	</div>
+	
+	<div id="main">
+		<table>
+			<tr>
+				<td colspan="2">功能列表</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" value="用户管理" id="usermanager">
+				</td>
+				<script>
+					//给确定按钮绑定单击事件
+					$("#usermanager").click(function(){
+						if("{{.Role}}" === "admin"){
+							location = "/getPageUsers";
+							return true;
+						}
+						return confirm("没有用户管理的权限！");
+					});
+				</script>
+				<td>
+					<input type="button" value="论文信息管理" id="papermanager">
+				</td>
+				<script>
+					//给确定按钮绑定单击事件
+					$("#papermanager").click(function(){
+						location = "/getPagePapers"
+					});
+				</script>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" value="导师信息管理" id="tutormanager">
+				</td>
+				<script>
+					//给确定按钮绑定单击事件
+					$("#tutormanager").click(function(){
+						location = "/getPageTutors"
+					});
+				</script>
+				<td>
+					<input type="button" value="毕业生信息管理" id="graduatemanager">
+				</td>
+				<script>
+					//给确定按钮绑定单击事件
+					$("#graduatemanager").click(function(){
+						location = "/getPageGraduates"
+					});
+				</script>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" value="提交论文" id="subpaper">
+				</td>
+				<script>
+					//给确定按钮绑定单击事件
+					$("#subpaper").click(function(){
+						if ("{{.Role}}" === "graduate" || "{{.Role}}" === "admin"){
+							location = "/submitPaper";
+							return true;
+						}
+						return confirm("没有上传论文的权限,如身份错误，请与管理员联系！");
+
+					});
+				</script>
+				<td>
+					<input type="button" value="退出系统" id="exit">
+				</td>
+				<script>
+					//给确定按钮绑定单击事件
+					$("#exit").click(function(){
+						location = "/logout"
+					});
+				</script>
+			</tr>
+		</table>
+	</div>
+	<div id="bottom">
+		<span>
+			Liu.Copyright &copy;2020
+		</span>
+	</div>
+</body>
+</html>

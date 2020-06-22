@@ -14,7 +14,7 @@ div{
 	margin: auto;
 	margin-bottom: 10px;
 	margin-top: 10px;
-	
+
 }
 
 #header {
@@ -23,8 +23,8 @@ div{
 }
 
 #main {
-	height: 460px;
-	width: 1200px;
+	height: 700px;
+	width: 1500px;
 	border: 1px black solid;
 	overflow: auto;
 }
@@ -39,7 +39,7 @@ div{
 	width: 100%;
 	height: 90%;
 	margin: auto;
-	
+
 }
 
 .b_list{
@@ -56,7 +56,7 @@ div{
 	width: 100%;
 	height: 10px;
 	margin: auto;
-	
+
 	text-align: center;
 }
 
@@ -76,7 +76,7 @@ div{
 }
 
 .book_info {
-	
+
 	text-align: center;
 }
 
@@ -152,38 +152,38 @@ h1 {
 }
 .msg_cont{
 	background: none repeat scroll 0 0 #fff6d2;
-    border: 1px solid #ffe57d;
-    color: #666;
-    height: 18px;
-    line-height: 18px;
-    padding: 3px 10px 3px 40px;
-    position: relative;
-    border: none;
+	border: 1px solid #ffe57d;
+	color: #666;
+	height: 18px;
+	line-height: 18px;
+	padding: 3px 10px 3px 40px;
+	position: relative;
+	border: none;
 }
 
 .msg_cont b {
 	background: url("../img/pwd-icons-new.png") no-repeat scroll -104px -22px rgba(0, 0, 0, 0);
-    display: block;
-    height: 17px;
-    left: 10px;
-    margin-top: -8px;
-    overflow: hidden;
-    position: absolute;
-    top: 50%;
-    width: 16px;
+	display: block;
+	height: 17px;
+	left: 10px;
+	margin-top: -8px;
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+	width: 16px;
 }
 
 .form .itxt {
-    border: 0 none;
-    float: none;
-    font-family: "宋体";
-    font-size: 14px;
-    height: 18px;
-    line-height: 18px;
-    overflow: hidden;
-    padding: 10px 0 10px 10px;
-    width: 220px;
-    border: 1px #e3e3e3 solid;
+	border: 0 none;
+	float: none;
+	font-family: "宋体";
+	font-size: 14px;
+	height: 18px;
+	line-height: 18px;
+	overflow: hidden;
+	padding: 10px 0 10px 10px;
+	width: 220px;
+	border: 1px #e3e3e3 solid;
 }
 
 #sub_btn{
@@ -196,12 +196,12 @@ h1 {
 
 #l_content {
 	float: left;
-	margin-top: 75px;
+	margin-top: 150px;
 	margin-left: 300px;
 }
 
 #l_content span {
-	font-size: 45px;
+	font-size: 60px;
 	color: white;
 }
 
@@ -231,7 +231,7 @@ h1 {
 /*购物车*/
 #main table{
 	margin: auto;
-	margin-top: 80px; 
+	margin-top: 80px;
 	border-collapse: collapse;
 }
 
@@ -259,7 +259,7 @@ h1 {
 
 .cart_span a , td a{
 	font-size: 20px;
-	color: #0000ff;
+	color: blue;
 }
 
 #header div span {

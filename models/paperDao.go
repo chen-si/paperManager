@@ -31,7 +31,7 @@ func (pDao *PaperDao) Delete(pId string) (err error) {
 	return
 }
 
-func (pDao *PaperDao) GetPagePapers(pageNo string) (page *Page, err error) {
+func (pDao *PaperDao) GetPagePapers(pageNo , search string) (page *Page, err error) {
 	//将PageNo转化为int64类型
 	iPageNo, err := strconv.ParseInt(pageNo, 10, 64)
 	if err != nil {
@@ -39,7 +39,14 @@ func (pDao *PaperDao) GetPagePapers(pageNo string) (page *Page, err error) {
 	}
 	//获取数据库中论文的总数
 	var totalPapers int64
-	err = pDao.Db.Raw("select count(*) from paper_info").QueryRow(&totalPapers)
+	switch TypeOfSearch(search){
+	case "":
+		err = pDao.Db.Raw("select count(*) from paper_info").QueryRow(&totalPapers)
+	case "author":
+		err = pDao.Db.Raw("select count(*) from paper_info where paper_author = ?",search).QueryRow(&totalPapers)
+	case "name":
+		err = pDao.Db.Raw("select count(*) from paper_info where paper_name like concat('%',?,'%')",search).QueryRow(&totalPapers)
+	}
 	if err != nil {
 		return
 	}
@@ -55,8 +62,18 @@ func (pDao *PaperDao) GetPagePapers(pageNo string) (page *Page, err error) {
 	}
 
 	var papers []*PaperInfo
-	_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version "+
-		"from paper_info limit ?,?", (iPageNo-1)*pageSize, pageSize).QueryRows(&papers)
+	switch TypeOfSearch(search){
+	case "":
+		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version "+
+			"from paper_info limit ?,?", (iPageNo-1)*pageSize, pageSize).QueryRows(&papers)
+	case "author":
+		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version "+
+			"from paper_info where paper_author = ? limit ?,?", search , (iPageNo-1)*pageSize, pageSize).QueryRows(&papers)
+	case "name":
+		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version "+
+			"from paper_info where paper_name like concat('%',?,'%') limit ?,?", search , (iPageNo-1)*pageSize, pageSize).QueryRows(&papers)
+	}
+
 
 	if err != nil {
 		return
@@ -73,4 +90,19 @@ func (pDao *PaperDao) GetPagePapers(pageNo string) (page *Page, err error) {
 		TotalRecord: totalPapers,
 	}
 	return page, nil
+}
+
+func TypeOfSearch(search string) string{
+	if search == ""{
+		return ""
+	}else if isAuthorId(search){
+		return "author"
+	}else{
+		return "name"
+	}
+}
+
+func isAuthorId(str string) bool{
+	_,err := strconv.Atoi(str)
+	return err == nil
 }

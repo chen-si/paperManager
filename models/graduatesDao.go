@@ -55,8 +55,8 @@ func (gDao *GraduatesDao) GetPageGraduates(pageNo string) (page *Page, err error
 	}
 
 	var graduates []*GraduatesInfo
-	_, err = gDao.Db.Raw("select id,name,graduate_time,tutor_id"+
-		"from paper_info limit ?,?", (iPageNo-1)*pageSize, pageSize).QueryRows(&graduates)
+	_, err = gDao.Db.Raw("select id,name,graduate_time,tutor_id "+
+		"from graduates_info limit ?,?", (iPageNo-1)*pageSize, pageSize).QueryRows(&graduates)
 
 	if err != nil {
 		return

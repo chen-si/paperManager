@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>编辑导师信息</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<style type="text/css">
+	h1 {
+		text-align: center;
+		margin-top: 200px;
+	}
+	
+	h1 a {
+		color:red;
+	}
+	
+	input {
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+		<div id="header">
+			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+			<span class="wel_word">编辑导师信息</span>
+			<div>
+				<a href="/getPageBooks">图书管理</a>
+				<a href="/main">返回商城</a>
+			</div>
+		</div>
+		
+		<div id="main">
+			<form action="/updateOrAddPaper" method="POST">
+				
+				<table>
+					<tr>
+						<td>编号</td>
+						<td>名称</td>
+						<td>作者</td>
+						<td>评分</td>
+						<td>版本</td>
+						<td>摘要</td>
+						<td colspan="2">操作</td>
+					</tr>		
+					<tr>
+					{{if .Paper}}
+						<td><input name="paperid" type="text" value="{{.Paper.PaperId}}"/></td>
+						<td><input name="papername" type="text" value="{{.Paper.PaperName}}"/></td>
+						<td><input name="paperauthor" type="text" value="{{.Paper.PaperAuthor}}"/></td>
+						<td><input name="papergrade" type="text" value="{{.Paper.PaperGrade}}"/></td>
+						<td><input name="paperversion" type="text" value="{{.Paper.PaperVersion}}"/></td>
+						<td><input name="paperdigest" type="text" value="{{.Paper.PaperDigest}}"/></td>
+					{{else}}
+						<td><input name="paperid" type="text" /></td>
+						<td><input name="papername" type="text" /></td>
+						<td><input name="paperauthor" type="text" /></td>
+						<td><input name="papergrade" type="text"/></td>
+						<td><input name="paperversion" type="text"/></td>
+						<td><input name="paperdigest" type="text"/></td>
+					{{end}}
+						<td><input type="submit" value="提交"/></td>
+					</tr>		
+				</table>
+			</form>
+		</div>
+		
+		<div id="bottom">
+			<span>
+				尚硅谷书城.Copyright &copy;2015
+			</span>
+		</div>
+</body>
+</html>

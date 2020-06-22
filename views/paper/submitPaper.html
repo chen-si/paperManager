@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>论文上传</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+    <!--引入jquery.js文件 -->
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.js"></script>
+    <script>
+        $(function(){
+            //给登录按钮绑定单击事件
+            $("#sub_btn").click(function(){
+                var paperid = $("#paperid").val();
+                if(paperid === ""){
+                    alert("论文编号不能为空！");
+                    //取消默认行为
+                    return false;
+                }
+                var papername = $("#papername").val();
+                if(papername === ""){
+                    alert("论文名不能为空！");
+                    return false;
+                }
+            });
+            //切换span标签中的信息
+            if("{{.err}}"==="有错误"){
+                //设置span标签中的文本值
+                $("#msg").text("{{.msg}}");
+            }
+        });
+    </script>
+</head>
+<body>
+<div id="login_header">
+    <img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+    <span class="wel_word">学位论文管理系统</span>
+</div>
+
+<div class="login_banner">
+    <div id="content">
+        <div class="login_form">
+            <div class="login_box">
+                <div class="msg_cont">
+                    <b></b>
+                    <span class="errorMsg" id="msg">请输入论文及其相关信息</span>
+                </div>
+                <div class="form">
+                    <form enctype="multipart/form-data"  action="/submitPaper" method="POST">
+                        <label>论文编号：</label>
+                        <input class="itxt" type="text" placeholder="请输入论文编号" autocomplete="off" tabindex="1" name="paperid" id="paperid"/>
+                        <br />
+                        <br />
+                        <label>论文名称：</label>
+                        <input class="itxt" type="text" placeholder="请输入论文名称" autocomplete="off" tabindex="1" name="papername" id="papername"/>
+                        <br />
+                        <br />
+                        {{if .IsAdmin}}
+                            <label>作者学号：</label>
+                            <input class="itxt" type="text" placeholder="请输入作者学号" autocomplete="off" tabindex="1" name="paperauthor" id="paperauthor"/>
+                            <br />
+                            <br />
+                        {{else}}
+                            <input type="hidden" value="{{.GraduateId}}" name="paperauthor" id="paperauthor"/>
+                        {{end}}
+                        <label>上传文件：</label>
+                        <input class="itxt" type="file" tabindex="1" name="paperfile" id="paperfile"/>
+                        <br />
+                        <br />
+                        <input type="submit" value="提交" id="sub_btn" />
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="bottom">
+			<span>
+				Liu.Copyright &copy;2020
+			</span>
+</div>
+</body>
+</html>

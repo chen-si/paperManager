@@ -6,7 +6,7 @@ import (
 	"paperManger/models"
 )
 
-type TutorController struct{
+type TutorController struct {
 	beego.Controller
 }
 
@@ -94,4 +94,14 @@ func (c *TutorController) DeleteTutor() {
 		fmt.Println(err)
 	}
 	c.Redirect("/getPageTutors", 302)
+}
+
+func (c *TutorController) IsLogin() (bool, *models.SessionValue) {
+	uuid := c.Ctx.GetCookie("user")
+	sessionInterface := c.GetSession(uuid)
+	if sessionInterface == nil {
+		return false, nil
+	} else {
+		return true, sessionInterface.(*models.SessionValue)
+	}
 }
