@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>图书管理</title>
+<title>学位论文管理系统</title>
 <link type="text/css" rel="stylesheet" href="/static/css/style.css" >
 <script src="/static/js/jquery-1.7.2.js"></script>
 </head>
@@ -12,18 +12,18 @@
 			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
 			<span class="wel_word">学位论文管理系统</span>
 			<div>
-				欢迎{{.Name}}({{.Id}}:{{.Role}})进入系统
+				<span>欢迎<span  class="um_span">{{.Name}} ({{.Id}}:{{.Role}})</span>进入系统</span>
 			</div>
 	</div>
 	
-	<div id="main">
+	<div id="mainpage">
 		<table>
 			<tr>
-				<td colspan="2">功能列表</td>
+				<td colspan="1"><span  class="liu_span">功能列表</span></td>
 			</tr>
 			<tr>
 				<td>
-					<input type="button" value="用户管理" id="usermanager">
+					<input  type="button" value="用户管理" id="usermanager">
 				</td>
 				<script>
 					//给确定按钮绑定单击事件
@@ -35,13 +35,16 @@
 						return confirm("没有用户管理的权限！");
 					});
 				</script>
+			</tr>
+			<tr>
 				<td>
 					<input type="button" value="论文信息管理" id="papermanager">
 				</td>
 				<script>
 					//给确定按钮绑定单击事件
 					$("#papermanager").click(function(){
-						location = "/getPagePapers"
+							location = "/getPagePapers";
+							return true;
 					});
 				</script>
 			</tr>
@@ -55,6 +58,8 @@
 						location = "/getPageTutors"
 					});
 				</script>
+			</tr>
+			<tr>
 				<td>
 					<input type="button" value="毕业生信息管理" id="graduatemanager">
 				</td>
@@ -77,9 +82,10 @@
 							return true;
 						}
 						return confirm("没有上传论文的权限,如身份错误，请与管理员联系！");
-
 					});
 				</script>
+			</tr>
+			<tr>
 				<td>
 					<input type="button" value="退出系统" id="exit">
 				</td>

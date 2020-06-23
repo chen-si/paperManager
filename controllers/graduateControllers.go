@@ -11,6 +11,12 @@ type GraduateController struct {
 }
 
 func (c *GraduateController) PageGraduates() {
+	//判断登录状态
+	flag,session := c.IsLogin()
+	if !flag{
+		c.Redirect("/",302)
+		return
+	}
 	gDao := &models.GraduatesDao{
 		Db: models.Db,
 	}
@@ -29,9 +35,16 @@ func (c *GraduateController) PageGraduates() {
 	}
 	c.TplName = "graduate/page_graduates.html"
 	c.Data["Page"] = page
+	c.sendUserType(session)
 }
 
 func (c *GraduateController) ToUpdateOrAddGraduate() {
+	//判断登录状态
+	flag,_ := c.IsLogin()
+	if !flag{
+		c.Redirect("/",302)
+		return
+	}
 	gDao := &models.GraduatesDao{
 		Db: models.Db,
 	}
@@ -97,6 +110,29 @@ func (c *GraduateController) DeleteGraduate() {
 	c.Redirect("/getPageGraduates", 302)
 }
 
+func (c *GraduateController) GetGraPaperInfo(){
+	//判断登录状态
+	flag,_ := c.IsLogin()
+	if !flag{
+		c.Redirect("/",302)
+		return
+	}
+	id := c.GetString("graduateid")
+
+	gDao := &models.GraduatesDao{
+		Db: models.Db,
+	}
+
+	gpInfo,err := gDao.GetGraPaperInfo(id)
+	if err != nil{
+		fmt.Println(err)
+		c.Redirect("/",302)
+		return
+	}
+	c.TplName = "graduate/gra_paper_info.html"
+	c.Data["GraPaperInfos"] = gpInfo
+}
+
 func (c *GraduateController) IsLogin() (bool, *models.SessionValue) {
 	uuid := c.Ctx.GetCookie("user")
 	sessionInterface := c.GetSession(uuid)
@@ -104,5 +140,30 @@ func (c *GraduateController) IsLogin() (bool, *models.SessionValue) {
 		return false, nil
 	} else {
 		return true, sessionInterface.(*models.SessionValue)
+	}
+}
+
+func (c *GraduateController)sendUserType(value *models.SessionValue){
+	switch value.UserRole{
+	case models.AdminUser:
+		c.Data["IsAdmin"] = true
+		c.Data["IsNormal"] = false
+		c.Data["IsGraduate"] = false
+		c.Data["IsTutor"] = false
+	case models.NormalUser:
+		c.Data["IsAdmin"] = false
+		c.Data["IsNormal"] = true
+		c.Data["IsGraduate"] = false
+		c.Data["IsTutor"] = false
+	case models.GraduateUser:
+		c.Data["IsAdmin"] = false
+		c.Data["IsNormal"] = false
+		c.Data["IsGraduate"] = true
+		c.Data["IsTutor"] = false
+	case models.TutorUser:
+		c.Data["IsAdmin"] = false
+		c.Data["IsNormal"] = false
+		c.Data["IsGraduate"] = false
+		c.Data["IsTutor"] = true
 	}
 }

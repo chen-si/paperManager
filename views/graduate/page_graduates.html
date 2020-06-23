@@ -22,7 +22,6 @@
 			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
 			<span class="wel_word">学位论文管理系统</span>
 			<div>
-				<a href="/getPageUsers">用户管理</a>
 				<a href="/">返回主页</a>
 			</div>
 	</div>
@@ -34,27 +33,43 @@
 				<td>毕业生姓名</td>
 				<td>毕业生毕业时间</td>
 				<td>毕业生导师ID</td>
-				<td colspan="2">操作</td>
-			</tr>	
-			{{range .Page.Graduates}}
-			<tr>
-				<td>{{.Id}}</td>
-				<td>{{.Name}}</td>
-				<td>{{.GraduateTime}}</td>
-				<td>{{.TutorId}}</td>
-				<td><a href="/updateOrAddGraduate?id={{.Id}}">修改</a></td>
-				<td><a id="{{.Name}}" class="deleteGraduate" href="/deleteGraduate?id={{.Id}}">删除</a></td>
+				{{if .IsNormal}}
+
+				{{else}}
+					<td colspan="2">操作</td>
+				{{end}}
 			</tr>
+			{{if .IsAdmin}}
+				{{range .Page.Graduates}}
+					<tr>
+						<td>{{.Id}}</td>
+						<td>{{.Name}}</td>
+						<td>{{.GraduateTime}}</td>
+						<td><a href="/getTutorGraInfo?tutorid={{.TutorId}}">{{.TutorId}}</a></td>
+						<td><a href="/updateOrAddGraduate?id={{.Id}}">修改</a></td>
+						<td><a id="{{.Name}}" class="deleteGraduate" href="/deleteGraduate?id={{.Id}}">删除</a></td>
+					</tr>
+				{{end}}
+			{{else}}
+				{{range .Page.Graduates}}
+					<tr>
+						<td>{{.Id}}</td>
+						<td>{{.Name}}</td>
+						<td>{{.GraduateTime}}</td>
+						<td><a href="/getTutorGraInfo?tutorid={{.TutorId}}">{{.TutorId}}</a></td>
+					</tr>
+				{{end}}
 			{{end}}
 			<tr>
-				<td></td>
+				{{if .IsAdmin}}
 				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
 				<td><a href="/updateOrAddGraduate">添加毕业生信息</a></td>
-			</tr>	
+				{{end}}
+			</tr>
 		</table>
 		<div id="page_nav">
 			{{if .Page.IsHasPrev}}

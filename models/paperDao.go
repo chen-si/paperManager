@@ -39,7 +39,7 @@ func (pDao *PaperDao) GetPagePapers(pageNo , search string) (page *Page, err err
 	}
 	//获取数据库中论文的总数
 	var totalPapers int64
-	switch TypeOfSearch(search){
+	switch typeOfSearch(search){
 	case "":
 		err = pDao.Db.Raw("select count(*) from paper_info").QueryRow(&totalPapers)
 	case "author":
@@ -62,15 +62,15 @@ func (pDao *PaperDao) GetPagePapers(pageNo , search string) (page *Page, err err
 	}
 
 	var papers []*PaperInfo
-	switch TypeOfSearch(search){
+	switch typeOfSearch(search){
 	case "":
-		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version "+
+		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version,paper_filepath "+
 			"from paper_info limit ?,?", (iPageNo-1)*pageSize, pageSize).QueryRows(&papers)
 	case "author":
-		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version "+
+		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version,paper_filepath "+
 			"from paper_info where paper_author = ? limit ?,?", search , (iPageNo-1)*pageSize, pageSize).QueryRows(&papers)
 	case "name":
-		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version "+
+		_, err = pDao.Db.Raw("select paper_id,paper_name,paper_digest,paper_grade,paper_author,paper_version,paper_filepath "+
 			"from paper_info where paper_name like concat('%',?,'%') limit ?,?", search , (iPageNo-1)*pageSize, pageSize).QueryRows(&papers)
 	}
 
@@ -92,7 +92,17 @@ func (pDao *PaperDao) GetPagePapers(pageNo , search string) (page *Page, err err
 	return page, nil
 }
 
-func TypeOfSearch(search string) string{
+func (pDao *PaperDao) UpdatePaperFilePath(paperId string,paperFilePath string)(err error){
+	_,err = pDao.Db.Raw("update paper_info set paper_filepath = ? where paper_id = ?",paperFilePath,paperId).Exec()
+	return err
+}
+
+func (pDao *PaperDao) GetPaperFilePathById(paperId string)(filepath string,err error){
+	err = pDao.Db.Raw("select paper_filepath from paper_info where paper_id = ?",paperId).QueryRow(&filepath)
+	return
+}
+
+func typeOfSearch(search string) string{
 	if search == ""{
 		return ""
 	}else if isAuthorId(search){

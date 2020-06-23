@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>导师毕业生对应信息</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<script src="/static/js/jquery-1.7.2.js"></script>
+</head>
+<body>
+
+	<div id="header">
+			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+			<span class="wel_word">学位论文管理系统</span>
+			<div>
+				<a href="/">返回主页</a>
+			</div>
+	</div>
+	
+	<div id="main">
+		<table>
+			<tr>
+				<td>导师ID</td>
+				<td>导师姓名</td>
+				<td>导师所属学院</td>
+				<td>毕业生学号</td>
+				<td>毕业生姓名</td>
+				<td>毕业生毕业时间</td>
+				<td>论文名字</td>
+				<td>论文摘要</td>
+			</tr>
+			{{range .TutorGraPaperInfos}}
+			<tr>
+				<td>{{.TutorId}}</td>
+				<td>{{.TutorName}}</td>
+				<td>{{.College}}</td>
+				<td>{{.Id}}</td>
+				<td>{{.Name}}</td>
+				<td>{{.GraduateTime}}</td>
+				<td>{{.PaperName}}</td>
+				<td>{{.PaperDigest}}</td>
+			</tr>
+			{{end}}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>	
+		</table>
+	</div>
+	
+	<div id="bottom">
+		<span>
+			Liu.Copyright &copy;2020
+		</span>
+	</div>
+</body>
+</html>

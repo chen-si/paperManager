@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+    <script src="/static/js/jquery-1.7.2.js"></script>
+    <script>
+        $(function(){
+            //给删除论文的超链接绑定单击事件
+            $(".deletePaper").click(function(){
+                var title = $(this).attr("id");
+                return confirm("确定要删除【"+title+"】这一论文信息吗？");
+            });
+            if("{{.err}}" === "不能修改其他人的论文信息"){
+                return confirm("不能修改其他毕业生的论文信息！")
+            }
+        });
+    </script>
+</head>
+<body>
+
+<div id="header">
+    <img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+    <span class="wel_word">学位论文管理系统</span>
+    <div>
+        <a href="/getPagePapers">论文信息</a>
+        <a href="/main">返回主页</a>
+    </div>
+</div>
+
+<div id="main">
+        <table>
+            <tr>
+                <td>毕业生姓名</td>
+                <td>毕业时间</td>
+                <td>论文编号</td>
+                <td>论文名</td>
+                <td>摘要</td>
+                <td>未通过原因</td>
+                <td>意见建议</td>
+                {{if .IsNormal}}
+
+                {{else if .IsGraduate}}
+
+                {{else}}
+                    <td colspan="1">操作</td>
+                {{end}}
+            </tr>
+            {{if .IsAdmin}}
+                <!-- 管理员用户 -->
+                {{range .Page.FailedPapers}}
+                    <tr>
+                        <td>{{.Name}}</td>
+                        <td>{{.GraduateTime}}</td>
+                        <td>{{.PaperId}}</td>
+                        <td>{{.PaperName}}</td>
+                        <td>{{.Digest}}</td>
+                        <td>{{.Reason}}</td>
+                        <td>{{.Suggestions}}</td>
+                        <td><a class="updateFailedPaper" href="/updateFailedPaper?paperid={{.PaperId}}">修改</a></td>
+                    </tr>
+                {{end}}
+            {{else if .IsTutor}}
+                <!-- 导师用户 -->
+                {{range .Page.FailedPapers}}
+                    <tr>
+                        <td>{{.Name}}</td>
+                        <td>{{.GraduateTime}}</td>
+                        <td>{{.PaperId}}</td>
+                        <td>{{.PaperName}}</td>
+                        <td>{{.Digest}}</td>
+                        <td>{{.Reason}}</td>
+                        <td>{{.Suggestions}}</td>
+                        <td><a class="updateFailedPaper" href="/updateFailedPaper?paperid={{.PaperId}}">修改</a></td>
+                    </tr>
+                {{end}}
+            {{else}}
+                <!-- 学生以及普通用户 -->
+                {{range .Page.FailedPapers}}
+                    <tr>
+                        <td>{{.Name}}</td>
+                        <td>{{.GraduateTime}}</td>
+                        <td>{{.PaperId}}</td>
+                        <td>{{.PaperName}}</td>
+                        <td>{{.Digest}}</td>
+                        <td>{{.Reason}}</td>
+                        <td>{{.Suggestions}}</td>
+                    </tr>
+                {{end}}
+            {{end}}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
+        <div id="page_nav">
+            {{if .Page.IsHasPrev}}
+                <a href="/failedPapers">首页</a>
+                <a href="/failedPapers?pageNo={{.Page.GetPrevPageNo}}">上一页</a>
+            {{end}}
+            当前是第{{.Page.PageNo}}页，共{{.Page.TotalPageNo}}页，共{{.Page.TotalRecord}}条记录
+            {{if .Page.IsHasNext}}
+                <a href="/failedPapers?pageNo={{.Page.GetNextPageNo}}">下一页</a>
+                <a href="/failedPapers?pageNo={{.Page.TotalPageNo}}">末页</a>
+            {{end}}
+            到第<input value="{{.Page.PageNo}}" name="pn" id="pn_input"/>页
+            <input type="button" value="确定" id="sub">
+            <script>
+                //给确定按钮绑定单击事件
+                $("#sub").click(function(){
+                    //获取输入的页码
+                    var pageNo = $("#pn_input").val();
+                    location = "/failedPapers?pageNo="+pageNo;
+                });
+            </script>
+        </div>
+</div>
+
+<div id="bottom">
+		<span>
+			Liu.Copyright &copy;2020
+		</span>
+</div>
+</body>
+</html>

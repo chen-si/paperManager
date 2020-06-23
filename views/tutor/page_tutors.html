@@ -22,7 +22,6 @@
 			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
 			<span class="wel_word">学位论文管理系统</span>
 			<div>
-				<a href="/getPageUsers">用户管理</a>
 				<a href="/">返回主页</a>
 			</div>
 	</div>
@@ -33,16 +32,30 @@
 				<td>导师ID</td>
 				<td>导师名字</td>
 				<td>导师院系</td>
-				<td colspan="2">操作</td>
-			</tr>	
-			{{range .Page.Tutors}}
-			<tr>
-				<td>{{.TutorId}}</td>
-				<td>{{.TutorName}}</td>
-				<td>{{.College}}</td>
-				<td><a href="/updateOrAddTutor?tutorid={{.TutorId}}">修改</a></td>
-				<td><a id="{{.TutorName}}" class="deleteTutor" href="/deleteTutor?tutorid={{.TutorId}}">删除</a></td>
+				{{if .IsNormal}}
+
+				{{else}}
+					<td colspan="2">操作</td>
+				{{end}}
 			</tr>
+			{{if .IsAdmin}}
+				{{range .Page.Tutors}}
+					<tr>
+						<td>{{.TutorId}}</td>
+						<td>{{.TutorName}}</td>
+						<td>{{.College}}</td>
+						<td><a href="/updateOrAddTutor?tutorid={{.TutorId}}">修改</a></td>
+						<td><a id="{{.TutorName}}" class="deleteTutor" href="/deleteTutor?tutorid={{.TutorId}}">删除</a></td>
+					</tr>
+				{{end}}
+			{{else}}
+				{{range .Page.Tutors}}
+					<tr>
+						<td>{{.TutorId}}</td>
+						<td>{{.TutorName}}</td>
+						<td>{{.College}}</td>
+					</tr>
+				{{end}}
 			{{end}}
 			<tr>
 				<td></td>
@@ -50,8 +63,9 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td></td>
+				{{if .IsAdmin}}
 				<td><a href="/updateOrAddTutor">添加导师信息</a></td>
+				{{end}}
 			</tr>	
 		</table>
 		<div id="page_nav">

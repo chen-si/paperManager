@@ -9,6 +9,7 @@ func TestModel(t *testing.T) {
 	//FailedPaper
 	t.Run("FPUpdate", testFPUpdate)
 	t.Run("FPRead", testFPRead)
+	t.Run("FPPagePaper",testFPPagePaper)
 
 	//Paper
 	t.Run("PaperInsert", testPaperInsert)
@@ -16,18 +17,23 @@ func TestModel(t *testing.T) {
 	t.Run("PaperDelete", testPaperDelete)
 	t.Run("PaperRead", testPaperRead)
 	t.Run("PaperGetPagePapers", testPaperGetPagePapers)
+	t.Run("UpdatePaperFilePath",testPaperUpdateFilePath)
+	t.Run("GetPaperFilePath",testPaperGetPaperFilePath)
 
 	//Graduate
 	t.Run("GraduateInsert", testGraduateInsert)
 	t.Run("GraduateUpdate", testGraduateUpdate)
 	t.Run("GraduateDelete", testGraduateDelete)
 	t.Run("GraduateRead", testGraduateRead)
+	t.Run("GetGraPaperInfo",testGetGraPaperInfo)
 
 	//Tutor
 	t.Run("TutorInsert", testTutorInsert)
 	t.Run("TutorUpdate", testTutorUpdate)
 	t.Run("TutorDelete", testTutorDelete)
 	t.Run("TutorRead", testTutorRead)
+	t.Run("GetTutorGraInfo",testGetTutorGraInfo)
+	t.Run("GetTutorGraPaperInfo",testGetTutorGraPaperInfo)
 
 	//User
 	t.Run("UserInsert", testUserDaoInsert)
@@ -36,6 +42,8 @@ func TestModel(t *testing.T) {
 	t.Run("UserRead", testUserDaoRead)
 	t.Run("GetPageUsers", testGetPageUsers)
 }
+
+//Failed Paper
 
 func testFPUpdate(t *testing.T) {
 	fpDao := &FailedPaperDao{
@@ -59,15 +67,29 @@ func testFPRead(t *testing.T) {
 	fmt.Println(fp)
 }
 
+func testFPPagePaper(t *testing.T){
+	fpDao := &FailedPaperDao{
+		Db: Db,
+	}
+
+	page,err := fpDao.GetFailedPaperInfoFromView("1")
+	fmt.Println(err)
+	fmt.Println(page)
+	fmt.Println(page.FailedPapers[0])
+	fmt.Println(page.FailedPapers[1])
+}
+
+//Paper
+
 func testPaperInsert(t *testing.T) {
 	p := &PaperDao{
 		Db: Db,
 	}
 
 	pInfo := &PaperInfo{
-		PaperId:      "456789",
-		PaperName:    "论危险主义",
-		PaperDigest:  "危险令人恐惧",
+		PaperId:      "555666",
+		PaperName:    "论自由主义",
+		PaperDigest:  "自由令人无限向往",
 		PaperGrade:   5,
 		PaperVersion: 1,
 		PaperAuthor:  "123456",
@@ -107,7 +129,7 @@ func testPaperDelete(t *testing.T) {
 	p := &PaperDao{
 		Db: Db,
 	}
-	fmt.Println(p.Delete("456789"))
+	fmt.Println(p.Delete("555666"))
 }
 
 func testPaperGetPagePapers(t *testing.T) {
@@ -115,11 +137,39 @@ func testPaperGetPagePapers(t *testing.T) {
 		Db: Db,
 	}
 
-	page, err := p.GetPagePapers("1")
+	page, err := p.GetPagePapers("1","")
 	fmt.Println(err)
 	fmt.Println(page)
 	fmt.Println(page.Papers[0])
 	fmt.Println(page.Papers[1])
+}
+
+func testPaperUpdateFilePath(t *testing.T){
+	p := &PaperDao{
+		Db: Db,
+	}
+	fmt.Println(p.UpdatePaperFilePath("555666","test.txt"))
+}
+
+func testPaperGetPaperFilePath(t *testing.T){
+	p := &PaperDao{
+		Db: Db,
+	}
+	fmt.Println(p.GetPaperFilePathById("555666"))
+}
+
+
+//Graduate
+
+func testGetGraPaperInfo(t *testing.T){
+	gDao := &GraduatesDao{
+		Db: Db,
+	}
+	gpInfo,err := gDao.GetGraPaperInfo("101510")
+	fmt.Println(err)
+	for _,v := range gpInfo{
+		fmt.Println(v)
+	}
 }
 
 func testGraduateInsert(t *testing.T) {
@@ -166,6 +216,30 @@ func testGraduateDelete(t *testing.T) {
 	fmt.Println(g.Delete("123456"))
 }
 
+//Tutor
+
+func testGetTutorGraInfo(t *testing.T){
+	tDao := &TutorDao{
+		Db: Db,
+	}
+	tgInfo,err := tDao.GetTutorGraInfo("111555")
+	fmt.Println(err)
+	for _,v := range tgInfo{
+		fmt.Println(v)
+	}
+}
+
+func testGetTutorGraPaperInfo(t *testing.T){
+	tDao := &TutorDao{
+		Db: Db,
+	}
+	tgpInfo,err := tDao.GetTutorGraPaperInfo("111555")
+	fmt.Println(err)
+	for _,v := range tgpInfo{
+		fmt.Println(v)
+	}
+}
+
 func testTutorDelete(t *testing.T) {
 	tu := &TutorDao{
 		Db: Db,
@@ -209,6 +283,8 @@ func testTutorInsert(t *testing.T) {
 	}
 	fmt.Println(tu.Insert(tutor))
 }
+
+//User
 
 func testUserDaoDelete(t *testing.T) {
 	u := &UserDao{

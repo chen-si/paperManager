@@ -95,6 +95,11 @@ func (c *UserController) DeleteUser() {
 }
 
 func (c *UserController) ToUpdateOrAddUser() {
+	flag,_ := c.IsLogin()
+	if !flag{
+		c.Redirect("/",302)
+		return
+	}
 	uDao := &models.UserDao{
 		Db: models.Db,
 	}

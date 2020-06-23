@@ -44,7 +44,8 @@
 					</tr>		
 					<tr>
 					{{if .Paper}}
-						<td><input name="paperid" type="text" value="{{.Paper.PaperId}}"/></td>
+						<td>{{.Paper.PaperId}}</td>
+						<input name="paperid" type="hidden" value="{{.Paper.PaperId}}" />
 						<td><input name="papername" type="text" value="{{.Paper.PaperName}}"/></td>
 						<td><input name="paperauthor" type="text" value="{{.Paper.PaperAuthor}}"/></td>
 						<td><input name="papergrade" type="text" value="{{.Paper.PaperGrade}}"/></td>

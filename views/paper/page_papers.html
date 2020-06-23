@@ -7,17 +7,14 @@
 	<script src="/static/js/jquery-1.7.2.js"></script>
 	<script>
 		$(function(){
-			//给删除图书的超链接绑定单击事件
+			//给删除论文的超链接绑定单击事件
 			$(".deletePaper").click(function(){
-				//获取书名
 				var title = $(this).attr("id");
-				// var flag = confirm("确定要删除【"+title+"】这本图书吗？");
-				// if(!flag){
-				// 	//取消默认行为
-				// 	return false;
-				// }
-				return confirm("确定要删除【"+title+"】这本图书吗？");
+				return confirm("确定要删除【"+title+"】这一论文信息吗？");
 			});
+			if("{{.err}}" === "不能修改其他人的论文信息"){
+				return confirm("不能修改其他毕业生的论文信息！")
+			}
 		});
 	</script>
 </head>
@@ -27,7 +24,7 @@
 	<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
 	<span class="wel_word">学位论文管理系统</span>
 	<div>
-		<a href="/getPageBooks">论文管理</a>
+		<a href="/failedPapers">未通过论文信息</a>
 		<a href="/main">返回主页</a>
 	</div>
 </div>
@@ -47,19 +44,63 @@
 			<td>评分</td>
 			<td>版本</td>
 			<td>摘要</td>
-			<td colspan="2">操作</td>
+			{{if .IsNormal}}
+
+			{{else}}
+				<td colspan="2">操作</td>
+			{{end}}
 		</tr>
-		{{range .Page.Papers}}
-			<tr>
-				<td>{{.PaperId}}</td>
-				<td>{{.PaperName}}</td>
-				<td>{{.PaperAuthor}}</td>
-				<td>{{.PaperGrade}}</td>
-				<td>{{.PaperVersion}}</td>
-				<td>{{.PaperDigest}}</td>
-				<td><a href="/updateOrAddPaper?paperid={{.PaperId}}">修改</a></td>
-				<td><a id="{{.PaperName}}" class="deletePaper" href="/deletePaper?paperid={{.PaperId}}">删除</a></td>
-			</tr>
+		{{if .IsAdmin}}
+			<!-- 管理员用户 -->
+			{{range .Page.Papers}}
+				<tr>
+					<td>{{.PaperId}}</td>
+					{{if .HasFile}}
+						<td><a href="/downloadPaper?paperid={{.PaperId}}">{{.PaperName}}</a></td>
+					{{else}}
+						<td>{{.PaperName}}</td>
+					{{end}}
+					<td><a href="/getGraPaperInfo?graduateid={{.PaperAuthor}}">{{.PaperAuthor}}</a></td>
+					<td>{{.PaperGrade}}</td>
+					<td>{{.PaperVersion}}</td>
+					<td>{{.PaperDigest}}</td>
+					<td><a class="updatePaper" href="/updateOrAddPaper?paperid={{.PaperId}}">修改</a></td>
+					<td><a id="{{.PaperName}}" class="deletePaper" href="/deletePaper?paperid={{.PaperId}}">删除</a></td>
+				</tr>
+			{{end}}
+		{{else if .IsNormal}}
+			<!-- 普通用户 -->
+			{{range .Page.Papers}}
+				<tr>
+					<td>{{.PaperId}}</td>
+					{{if .HasFile}}
+						<td><a href="/downloadPaper?paperid={{.PaperId}}">{{.PaperName}}</a></td>
+					{{else}}
+						<td>{{.PaperName}}</td>
+					{{end}}
+					<td>{{.PaperAuthor}}</td>
+					<td>{{.PaperGrade}}</td>
+					<td>{{.PaperVersion}}</td>
+					<td>{{.PaperDigest}}</td>
+				</tr>
+			{{end}}
+		{{else}}
+			<!-- 学生以及导师用户 -->
+			{{range .Page.Papers}}
+				<tr>
+					<td>{{.PaperId}}</td>
+					{{if .HasFile}}
+						<td><a href="/downloadPaper?paperid={{.PaperId}}">{{.PaperName}}</a></td>
+					{{else}}
+						<td>{{.PaperName}}</td>
+					{{end}}
+					<td>{{.PaperAuthor}}</td>
+					<td>{{.PaperGrade}}</td>
+					<td>{{.PaperVersion}}</td>
+					<td>{{.PaperDigest}}</td>
+					<td><a class="updatePaper" href="/updateOrAddPaper?paperid={{.PaperId}}">修改</a></td>
+				</tr>
+			{{end}}
 		{{end}}
 		<tr>
 			<td></td>
@@ -68,7 +109,9 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td><a href="/updateOrAddPaper">添加图书</a></td>
+			{{if .IsAdmin}}
+			<td><a href="/updateOrAddPaper">添加论文信息</a></td>
+			{{end}}
 		</tr>
 	</table>
 	<div id="page_nav">

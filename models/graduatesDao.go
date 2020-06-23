@@ -74,3 +74,11 @@ func (gDao *GraduatesDao) GetPageGraduates(pageNo string) (page *Page, err error
 	}
 	return page, nil
 }
+
+func (gDao *GraduatesDao) GetGraPaperInfo(id string)([]*GraPaperInfo,error){
+	var gpInfo []*GraPaperInfo
+	_,err := gDao.Db.Raw("select gi.id id,gi.name name,gi.graduate_time graduate_time,gi.tutor_id tutor_id," +
+		" pi.paper_id paper_id,pi.paper_name paper_name, pi.paper_grade paper_grade,pi.paper_digest paper_digest " +
+		"from graduates_info gi join paper_info pi on gi.id = pi.paper_author where gi.id = ?",id).QueryRows(&gpInfo)
+	return gpInfo,err
+}

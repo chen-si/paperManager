@@ -29,6 +29,14 @@ div{
 	overflow: auto;
 }
 
+#mainpage {
+	height: 700px;
+	width: 1500px;
+	border: 1px black solid;
+	overflow: auto;
+}
+
+
 #bottom {
 	height: 30px;
 	width: 1200px;
@@ -273,5 +281,44 @@ h1 {
 }
 
 #header div a {
+	color: blue;
+}
+
+#mainpage div .liu_span{
+	color: blue;
+	font-size: 40px;
+}
+
+#mainpage table{
+	margin: auto;
+	margin-top: 80px;
+	border-collapse: collapse;
+}
+
+#mainpage table td{
+	width: 120px;
+	text-align:center;
+	border-bottom: 1px #e3e3e3 solid;
+	padding: 10px;
+	font-size: 30px;
+}
+
+.cart_info{
+	width: 700px;
+	text-align: right;
+}
+
+.cart_span {
+	margin-left: 20px;
+}
+
+.cart_span span{
+	color: red;
+	font-size: 20px;
+	margin: 10px;
+}
+
+.cart_span a , td a{
+	font-size: 20px;
 	color: blue;
 }
