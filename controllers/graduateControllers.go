@@ -12,9 +12,9 @@ type GraduateController struct {
 
 func (c *GraduateController) PageGraduates() {
 	//判断登录状态
-	flag,session := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, session := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 	gDao := &models.GraduatesDao{
@@ -40,9 +40,9 @@ func (c *GraduateController) PageGraduates() {
 
 func (c *GraduateController) ToUpdateOrAddGraduate() {
 	//判断登录状态
-	flag,_ := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, _ := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 	gDao := &models.GraduatesDao{
@@ -110,11 +110,11 @@ func (c *GraduateController) DeleteGraduate() {
 	c.Redirect("/getPageGraduates", 302)
 }
 
-func (c *GraduateController) GetGraPaperInfo(){
+func (c *GraduateController) GetGraPaperInfo() {
 	//判断登录状态
-	flag,_ := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, _ := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 	id := c.GetString("graduateid")
@@ -123,10 +123,10 @@ func (c *GraduateController) GetGraPaperInfo(){
 		Db: models.Db,
 	}
 
-	gpInfo,err := gDao.GetGraPaperInfo(id)
-	if err != nil{
+	gpInfo, err := gDao.GetGraPaperInfo(id)
+	if err != nil {
 		fmt.Println(err)
-		c.Redirect("/",302)
+		c.Redirect("/", 302)
 		return
 	}
 	c.TplName = "graduate/gra_paper_info.html"
@@ -143,8 +143,8 @@ func (c *GraduateController) IsLogin() (bool, *models.SessionValue) {
 	}
 }
 
-func (c *GraduateController)sendUserType(value *models.SessionValue){
-	switch value.UserRole{
+func (c *GraduateController) sendUserType(value *models.SessionValue) {
+	switch value.UserRole {
 	case models.AdminUser:
 		c.Data["IsAdmin"] = true
 		c.Data["IsNormal"] = false

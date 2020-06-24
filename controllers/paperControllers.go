@@ -14,10 +14,10 @@ type PaperController struct {
 	beego.Controller
 }
 
-func (c *PaperController) ToFailedPaper(){
-	flag,session := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+func (c *PaperController) ToFailedPaper() {
+	flag, session := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 
@@ -42,11 +42,11 @@ func (c *PaperController) ToFailedPaper(){
 	c.sendUserType(session)
 }
 
-func (c *PaperController) ToUpdateFailedPaper(){
-	flag,_ := c.IsLogin()
+func (c *PaperController) ToUpdateFailedPaper() {
+	flag, _ := c.IsLogin()
 
-	if !flag{
-		c.Redirect("/",302)
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 
@@ -56,7 +56,7 @@ func (c *PaperController) ToUpdateFailedPaper(){
 
 	paperId := c.GetString("paperid")
 	fp := &models.FailedPaper{
-		PaperId:         paperId,
+		PaperId: paperId,
 	}
 	//update failed paper
 	err := fpDao.Read(fp)
@@ -68,7 +68,7 @@ func (c *PaperController) ToUpdateFailedPaper(){
 	c.Data["FP"] = fp
 }
 
-func (c *PaperController) UpdateFailedPaper(){
+func (c *PaperController) UpdateFailedPaper() {
 	fp := &models.FailedPaper{
 		PaperId:         c.GetString("paperid"),
 		ReasonForFailed: c.GetString("reason"),
@@ -79,17 +79,17 @@ func (c *PaperController) UpdateFailedPaper(){
 		Db: models.Db,
 	}
 
-	err :=  fpDao.Update(fp)
-	if err != nil{
+	err := fpDao.Update(fp)
+	if err != nil {
 		fmt.Println(err)
 	}
-	c.Redirect("/failedPapers",302)
+	c.Redirect("/failedPapers", 302)
 }
 
 func (c *PaperController) PagePapers() {
-	flag,session := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, session := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 	pDao := &models.PaperDao{
@@ -100,9 +100,9 @@ func (c *PaperController) PagePapers() {
 	var page *models.Page
 	var err error
 	if pageNo == "" {
-		page, err = pDao.GetPagePapers("1",searchStr)
+		page, err = pDao.GetPagePapers("1", searchStr)
 	} else {
-		page, err = pDao.GetPagePapers(pageNo,searchStr)
+		page, err = pDao.GetPagePapers(pageNo, searchStr)
 	}
 	if err != nil {
 		fmt.Println(err)
@@ -116,10 +116,10 @@ func (c *PaperController) PagePapers() {
 }
 
 func (c *PaperController) ToUpdateOrAddPaper() {
-	flag,session := c.IsLogin()
+	flag, session := c.IsLogin()
 
-	if !flag{
-		c.Redirect("/",302)
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 
@@ -141,7 +141,7 @@ func (c *PaperController) ToUpdateOrAddPaper() {
 			fmt.Println(err)
 			return
 		}
-		if session.UserRole == models.GraduateUser && session.UserId != paper.PaperAuthor{
+		if session.UserRole == models.GraduateUser && session.UserId != paper.PaperAuthor {
 			//不能修改其他人的论文信息
 			c.PagePapers()
 			c.Data["err"] = "不能修改其他人的论文信息"
@@ -199,9 +199,9 @@ func (c *PaperController) DeletePaper() {
 }
 
 func (c *PaperController) ToUploadFile() {
-	flag,_ := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, _ := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 	c.TplName = "paper/submit_paper.html"
@@ -249,7 +249,7 @@ func (c *PaperController) UploadFile() {
 			c.TplName = "paper/submit_paper.html"
 			c.Data["err"] = "有错误"
 			c.Data["msg"] = "论文信息保存失败！请重新提交表单！"
-			err = os.Remove( FileDir+paper.PaperId+"_"+session.UserId+"_"+header.Filename)
+			err = os.Remove(FileDir + paper.PaperId + "_" + session.UserId + "_" + header.Filename)
 			if err != nil {
 				//删除文件失败
 				fmt.Println(err)
@@ -258,12 +258,12 @@ func (c *PaperController) UploadFile() {
 		}
 	}
 	err = pDao.UpdatePaperFilePath(paper.PaperId, FileDir+paper.PaperId+"_"+session.UserId+"_"+header.Filename)
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
 		c.TplName = "paper/submit_paper.html"
 		c.Data["err"] = "有错误"
 		c.Data["msg"] = "论文路径保存失败！请重新提交表单！"
-		err = os.Remove(FileDir+paper.PaperId+"_"+header.Filename)
+		err = os.Remove(FileDir + paper.PaperId + "_" + header.Filename)
 		if err != nil {
 			//删除文件失败
 			fmt.Println(err)
@@ -273,22 +273,22 @@ func (c *PaperController) UploadFile() {
 	c.Redirect("/main", 302)
 }
 
-func (c *PaperController) DownloadFile(){
+func (c *PaperController) DownloadFile() {
 	paperId := c.GetString("paperid")
 
 	pDao := &models.PaperDao{
 		Db: models.Db,
 	}
 
-	filepath ,err := pDao.GetPaperFilePathById(paperId)
+	filepath, err := pDao.GetPaperFilePathById(paperId)
 
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
-		c.Redirect("/getPagePapers",302)
+		c.Redirect("/getPagePapers", 302)
 		return
 	}
 	c.Ctx.Output.Download(filepath)
-	c.Redirect("/getPagePapers",302)
+	c.Redirect("/getPagePapers", 302)
 	return
 }
 
@@ -302,8 +302,8 @@ func (c *PaperController) IsLogin() (bool, *models.SessionValue) {
 	}
 }
 
-func (c *PaperController)sendUserType(value *models.SessionValue){
-	switch value.UserRole{
+func (c *PaperController) sendUserType(value *models.SessionValue) {
+	switch value.UserRole {
 	case models.AdminUser:
 		c.Data["IsAdmin"] = true
 		c.Data["IsNormal"] = false

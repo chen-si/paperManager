@@ -19,7 +19,7 @@ func (fpDao *FailedPaperDao) Read(fp *FailedPaper) (err error) {
 	return
 }
 
-func (fpDao *FailedPaperDao) GetFailedPaperInfoFromView(pageNo string)(page *Page,err error){
+func (fpDao *FailedPaperDao) GetFailedPaperInfoFromView(pageNo string) (page *Page, err error) {
 	//将PageNo转化为int64类型
 	iPageNo, err := strconv.ParseInt(pageNo, 10, 64)
 	if err != nil {
@@ -52,11 +52,11 @@ func (fpDao *FailedPaperDao) GetFailedPaperInfoFromView(pageNo string)(page *Pag
 
 	page = &Page{
 		FailedPapers: fpInfo,
-		PageStyle:   FailedPaperPageStyle,
-		PageNo:      iPageNo,
-		PageSize:    pageSize,
-		TotalPageNo: totalPageNo,
-		TotalRecord: totalPapers,
+		PageStyle:    FailedPaperPageStyle,
+		PageNo:       iPageNo,
+		PageSize:     pageSize,
+		TotalPageNo:  totalPageNo,
+		TotalRecord:  totalPapers,
 	}
 	return page, nil
 }

@@ -11,9 +11,10 @@ type TutorController struct {
 }
 
 func (c *TutorController) PageTutors() {
-	flag,session := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, session := c.IsLogin()
+	if !flag {
+		//未登录状态
+		c.Redirect("/", 302)
 		return
 	}
 	tDao := &models.TutorDao{
@@ -39,9 +40,9 @@ func (c *TutorController) PageTutors() {
 
 func (c *TutorController) ToUpdateOrAddTutor() {
 	//判断登录状态
-	flag,_ := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, _ := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 
@@ -109,11 +110,11 @@ func (c *TutorController) DeleteTutor() {
 	c.Redirect("/getPageTutors", 302)
 }
 
-func (c *TutorController) GetTutorGraInfo(){
+func (c *TutorController) GetTutorGraInfo() {
 	//判断登录状态
-	flag,_ := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, _ := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 	id := c.GetString("tutorid")
@@ -122,21 +123,21 @@ func (c *TutorController) GetTutorGraInfo(){
 		Db: models.Db,
 	}
 
-	tgInfo,err := tDao.GetTutorGraInfo(id)
-	if err != nil{
+	tgInfo, err := tDao.GetTutorGraInfo(id)
+	if err != nil {
 		fmt.Println(err)
-		c.Redirect("/",302)
+		c.Redirect("/", 302)
 		return
 	}
 	c.TplName = "tutor/tutor_gra_info.html"
 	c.Data["TutorGraInfos"] = tgInfo
 }
 
-func (c *TutorController) GetTutorGraPaperInfo(){
+func (c *TutorController) GetTutorGraPaperInfo() {
 	//判断登录状态
-	flag,_ := c.IsLogin()
-	if !flag{
-		c.Redirect("/",302)
+	flag, _ := c.IsLogin()
+	if !flag {
+		c.Redirect("/", 302)
 		return
 	}
 	id := c.GetString("tutorid")
@@ -145,10 +146,10 @@ func (c *TutorController) GetTutorGraPaperInfo(){
 		Db: models.Db,
 	}
 
-	tgpInfo,err := tDao.GetTutorGraPaperInfo(id)
-	if err != nil{
+	tgpInfo, err := tDao.GetTutorGraPaperInfo(id)
+	if err != nil {
 		fmt.Println(err)
-		c.Redirect("/",302)
+		c.Redirect("/", 302)
 		return
 	}
 	c.TplName = "tutor/tutor_gra_paper_info.html"
@@ -165,8 +166,8 @@ func (c *TutorController) IsLogin() (bool, *models.SessionValue) {
 	}
 }
 
-func (c *TutorController)sendUserType(value *models.SessionValue){
-	switch value.UserRole{
+func (c *TutorController) sendUserType(value *models.SessionValue) {
+	switch value.UserRole {
 	case models.AdminUser:
 		c.Data["IsAdmin"] = true
 		c.Data["IsNormal"] = false
