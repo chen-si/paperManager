@@ -168,16 +168,21 @@ func (c *PaperController) UpdateOrAddPaper() {
 		Db: models.Db,
 	}
 
-	if err := pDao.Read(&models.PaperInfo{
+	paperInfo := &models.PaperInfo{
 		PaperId: paper.PaperId,
-	}); err == nil {
-		//更新用户
+	}
+
+	if err := pDao.Read(paperInfo); err == nil {
+		//更新论文信息
+
+		//保证原有的FilePath不被更新为空
+		paper.PaperFilepath = paperInfo.PaperFilepath
 		err = pDao.Update(paper)
 		if err != nil {
 			fmt.Println(err)
 		}
 	} else {
-		//添加用户
+		//添加论文信息
 		err = pDao.Insert(paper)
 		if err != nil {
 			fmt.Println(err)

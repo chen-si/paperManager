@@ -7,29 +7,28 @@
 <script src="/static/js/jquery-1.7.2.js"></script>
 </head>
 <body>
-
-	<div id="header">
-			<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
-			<span class="wel_word">学位论文管理系统</span>
-			<div>
-				<a href="/getPagePapers">学位论文管理</a>
-				<a href="/">返回主页</a>
-			</div>
+<div id="header">
+	<img class="logo_img" alt="" src="/static/img/HEU.jpg" >
+	<span class="wel_word">学位论文管理系统</span>
+	<div>
+		<a href="/getPagePapers">学位论文管理</a>
+		<a href="/">返回主页</a>
 	</div>
-	
-	<div id="main">
-		<table>
-			<tr>
-				<td>毕业生学号</td>
-				<td>毕业生姓名</td>
-				<td>毕业生毕业时间</td>
-				<td>毕业生导师ID</td>
-				<td>毕业生论文ID</td>
-				<td>毕业生论文名</td>
-				<td>毕业生论文等级</td>
-				<td>毕业生论文摘要</td>
-			</tr>	
-			{{range .GraPaperInfos}}
+</div>
+
+<div id="main">
+	<table>
+		<tr>
+			<td>毕业生学号</td>
+			<td>毕业生姓名</td>
+			<td>毕业生毕业时间</td>
+			<td>毕业生导师ID</td>
+			<td>毕业生论文ID</td>
+			<td>毕业生论文名</td>
+			<td>毕业生论文等级</td>
+			<td>毕业生论文摘要</td>
+		</tr>
+		{{range .GraPaperInfos}}
 			<tr>
 				<td>{{.Id}}</td>
 				<td>{{.Name}}</td>
@@ -40,22 +39,22 @@
 				<td>{{.PaperGrade}}</td>
 				<td>{{.PaperDigest}}</td>
 			</tr>
-			{{end}}
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>	
-		</table>
-	</div>
-	
-	<div id="bottom">
-		<span>
-			Liu.Copyright &copy;2020
-		</span>
-	</div>
+		{{end}}
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+
+<div id="bottom">
+	<span>
+		Liu.Copyright &copy;2020
+	</span>
+</div>
 </body>
 </html>
